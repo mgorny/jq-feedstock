@@ -1,7 +1,11 @@
 #!/bin/bash
 # Get an updated config.sub and config.guess
-cp $BUILD_PREFIX/share/gnuconfig/config.* ./vendor/oniguruma
-cp $BUILD_PREFIX/share/gnuconfig/config.* ./config
+if [[ ${target_platform} == win-* ]]; then
+  patch_libtool
+else
+  cp $BUILD_PREFIX/share/gnuconfig/config.* ./vendor/oniguruma
+  cp $BUILD_PREFIX/share/gnuconfig/config.* ./config
+fi
 
 set -ex
 
@@ -11,7 +15,7 @@ chmod +x configure
 
 make -j${CPU_COUNT}
 if [[ "${CONDA_BUILD_CROSS_COMPILATION}" != "1" ]]; then
-make check
+  make check
 fi
 
 make install

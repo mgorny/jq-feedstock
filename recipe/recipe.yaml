@@ -12,16 +12,18 @@ source:
   sha256: 71b8d6e8f5fe81f6c6d0d110e3892251f6ce76ed095abd315e26e6e1193af3af
 
 build:
-  number: 1
-  skip: win
+  number: 2
 
 requirements:
   build:
     - if: unix
-      then: gnuconfig
+      then:
+        - gnuconfig
+        - make
+      else:
+        - autotools_clang_conda
     - ${{ compiler('c') }}
     - ${{ stdlib("c") }}
-    - make
   host:
     - oniguruma 6.9.*
   run:
@@ -29,8 +31,7 @@ requirements:
 
 tests:
   - script:
-      - if: not win
-        then: jq --help
+      - jq --help
 
 about:
   license: MIT
