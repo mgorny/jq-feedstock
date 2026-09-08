@@ -11,7 +11,7 @@ chmod +x configure
 
 ./configure --prefix=$PREFIX --with-oniguruma=$PREFIX
 
-if [[ ${target_platform} != win-* ]]; then
+if [[ ${target_platform} == win-* ]]; then
   patch_libtool
 fi
 
